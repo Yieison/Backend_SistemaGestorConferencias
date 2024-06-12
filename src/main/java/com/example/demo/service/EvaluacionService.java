@@ -12,9 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.Articulo;
+import com.example.demo.model.Conferencia;
 import com.example.demo.model.Evaluacion;
 import com.example.demo.model.Usuario;
+import com.example.demo.repository.ArticuloRepository;
+import com.example.demo.repository.ConferenciaRepository;
 import com.example.demo.repository.EvaluacionRepository;
+import com.example.demo.repository.UsuarioRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,6 +30,16 @@ public class EvaluacionService {
 	
 	@Autowired
 	EvaluacionRepository evaluacionRepository;
+	
+	@Autowired
+	UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	ConferenciaRepository conferenciaRepository;
+	
+	
+	@Autowired
+	ArticuloRepository articuloRepository;
 	
 	  @PersistenceContext
 	    private EntityManager entityManager;
@@ -59,7 +73,29 @@ public class EvaluacionService {
 			        } else {
 			            throw new EntityNotFoundException("Evaluación no encontrada");
 			        }
-			    }
+			 }
+			 
+			 
+			 public void asignarEvaluacion(int idEvaluador,int idArticulo , Evaluacion evaluacion) {
+				 
+				 Optional<Usuario> opEvaluador = usuarioRepository.findById(idEvaluador);
+				 Optional<Articulo> opArticulo = articuloRepository.findById(idArticulo);
+				 
+				 
+				 if(opEvaluador.isPresent() && opArticulo.isPresent() ) {
+					 
+					 Usuario evaluador = opEvaluador.get();
+					 
+					 Articulo articulo = opArticulo.get();
+					 
+					 evaluacion.setEvaluador(evaluador);
+					 evaluacion.setArticulo(articulo);
+					 
+					 evaluacionRepository.save(evaluacion);
+					
+				 }
+				 		 
+			 }
 			
 			
 			

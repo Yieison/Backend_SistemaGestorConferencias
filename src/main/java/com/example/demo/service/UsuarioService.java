@@ -22,6 +22,8 @@ public class UsuarioService {
 		return usuarioRepository.findAll();
 	}
 	
+	
+	
 	//traer estudiante por id
 		public Optional<Usuario> getUsuario(Integer id) {
 			return usuarioRepository.findById(id);
@@ -32,8 +34,21 @@ public class UsuarioService {
 			usuarioRepository.save(usuario);
 		}
 		
-		public List<Usuario> getEvaluadores(Integer id){
-			return usuarioRepository.findByRol(id);
+		public List<Usuario> getEvaluadores(String nombre){
+			return usuarioRepository.findByRolNombre(nombre);
+		}
+		
+		public Optional<Usuario> getCorreo(String correo){
+			return usuarioRepository.findByCorreo(correo);
+		}
+		
+		
+		public Usuario iniciarSesion(Usuario usu) {
+			Optional<Usuario> us = usuarioRepository.findByCorreo(usu.getCorreo());
+			if(us.isPresent() && us.get().getPassword().equals(usu.getPassword())) {
+				return us.get();
+			}
+			return null;
 		}
 	
 

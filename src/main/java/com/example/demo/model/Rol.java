@@ -29,8 +29,6 @@ public class Rol implements Serializable {
 	private String nombre;
 	
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "rol")
-    private List<Usuario> usuarios;
+	
 	
 }

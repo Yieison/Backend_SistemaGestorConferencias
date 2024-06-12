@@ -20,8 +20,10 @@ public class ArticuloService {
 		return articuloRepository.findAll();
 	}
 	
-	//traer todos los estudiantes
-		
+	//traer todos los articulos por estado
+	public List<Articulo> getArticuloEstado(String estado){
+		return articuloRepository.findByEstado(estado);
+	}
 	
 	
 

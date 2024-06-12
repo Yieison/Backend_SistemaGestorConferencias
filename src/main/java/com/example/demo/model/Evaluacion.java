@@ -1,8 +1,11 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -20,12 +23,13 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name="evaluacion")
-public class Evaluacion {
+public class Evaluacion implements Serializable {
 	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp fechaHora;
 	    @ManyToOne
 	    @JoinColumn(name="articulo_id_articulo")

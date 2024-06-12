@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,11 +45,29 @@ public class EvaluacionController {
 	}
 	
 	
+	/**
+	@PostMapping("/save/articulo/{idArticulo}/evaluador/{idEvaluador}")
+	public void saveEvaluacion(@PathVariable int idEvaluador , @PathVariable int idArticulo,@RequestBody Evaluacion evaluacion) {
+		evaluacionService.asignarEvaluacion(idEvaluador, idArticulo, evaluacion);
+	}
+	*/
+	
+	 @PostMapping("/asignar/{idEvaluador}/evaluacion/{idArticulo}")
+	    public ResponseEntity<String> saveEvaluacion(
+	            @PathVariable int idEvaluador,
+	            @PathVariable int idArticulo,
+	            @RequestBody Evaluacion evaluacion) {
+	        evaluacionService.asignarEvaluacion(idEvaluador, idArticulo, evaluacion);
+	        return new ResponseEntity<>("Evaluación asignada exitosamente", HttpStatus.OK);
+	   }
+	
+	
+	
 	
 	@GetMapping("/{estado}")
-	public Evaluacion getByid(@PathVariable String estado) {
-		List<Evaluacion> evaluacion = evaluacionService.getEvaluacion(estado);
-		return evaluacion.get(0);
+	public List<Evaluacion> getByEstado(@PathVariable String estado) {
+	    List<Evaluacion> evaluaciones = evaluacionService.getEvaluacion(estado);
+	    return evaluaciones;
 	}
 	
 	

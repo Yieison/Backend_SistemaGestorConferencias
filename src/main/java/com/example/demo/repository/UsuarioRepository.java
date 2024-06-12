@@ -13,8 +13,10 @@ import com.example.demo.model.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
 	
+	@Query("SELECT u FROM Usuario u WHERE u.rol.nombre = ?1")
+    List<Usuario> findByRolNombre(String nombreRol);
 	
-	@Query("SELECT u FROM Usuario u WHERE u.rol.id_rol = ?1")
-	List<Usuario> findByRol (int id);
+	
+	Optional<Usuario> findByCorreo(String correo);
 
-}
+} 

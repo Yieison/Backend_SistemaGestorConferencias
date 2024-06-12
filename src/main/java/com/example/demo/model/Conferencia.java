@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +29,11 @@ public class Conferencia implements Serializable {
 	String descripcion;
 	String lugar;
 	
-	@OneToMany
-	private List<Articulo> articulos;
+
+	@OneToMany(mappedBy = "conferencia")
+	// Establecer referencia manejada
+	@JsonIgnore
+	private List<Topico> topicos;
+	
 
 }
