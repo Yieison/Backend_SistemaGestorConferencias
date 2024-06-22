@@ -31,6 +31,10 @@ public class Articulo implements Serializable{
 	
 	private String nombre;
 	
+	@ManyToOne
+	@JoinColumn(name= "id_autor")
+	private Usuario autor;
+	
 	
 
 }

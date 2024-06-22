@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.Rol;
 import com.example.demo.model.Usuario;
+import com.example.demo.repository.RolRepository;
 import com.example.demo.repository.UsuarioRepository;
 
 
@@ -15,6 +17,10 @@ public class UsuarioService {
 	
 	@Autowired
 	UsuarioRepository  usuarioRepository;
+	
+	@Autowired
+	RolRepository rolRepository;
+	
 	
 	
 	//traer todos los estudiantes
@@ -34,6 +40,12 @@ public class UsuarioService {
 			usuarioRepository.save(usuario);
 		}
 		
+		public void RegistrarUsuario(Usuario usuario,int idRol) {
+			Optional<Rol> rol = rolRepository.findById(idRol);
+			usuario.setRol(rol.get());
+			usuarioRepository.save(usuario);
+		}
+		
 		public List<Usuario> getEvaluadores(String nombre){
 			return usuarioRepository.findByRolNombre(nombre);
 		}
@@ -41,6 +53,7 @@ public class UsuarioService {
 		public Optional<Usuario> getCorreo(String correo){
 			return usuarioRepository.findByCorreo(correo);
 		}
+		
 		
 		
 		public Usuario iniciarSesion(Usuario usu) {

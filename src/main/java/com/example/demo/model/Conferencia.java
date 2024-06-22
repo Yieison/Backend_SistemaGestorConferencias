@@ -11,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -22,18 +24,27 @@ public class Conferencia implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id_conferencia;
-	String nombre;
-	Date Fecha_inicio;
-	Date Fecha_fin;
-	String descripcion;
-	String lugar;
+	private int id_conferencia;
+	private String nombre;
+	private Date Fecha_inicio;
+	private Date Fecha_fin;
+	private String descripcion;
+	private String lugar;
 	
 
 	@OneToMany(mappedBy = "conferencia")
 	// Establecer referencia manejada
 	@JsonIgnore
 	private List<Topico> topicos;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_chair")
+	private Usuario chair;
+	
+	
+	private String imagenUrl;
+	
+	
 	
 
 }

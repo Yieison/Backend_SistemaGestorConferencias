@@ -46,6 +46,11 @@ public class UsuarioController {
 		usuarioService.Guardar(usuario);
 	}
 	
+	@PostMapping("/register/{idRol}")
+	public void register(@RequestBody Usuario usuario,@PathVariable int idRol) {
+		usuarioService.RegistrarUsuario(usuario, idRol);
+	}
+	
 	
 	 @GetMapping("/findUsuarios/{rol}")
 	    public List<Usuario> getUsuariosPorRol(@PathVariable("rol") String nombre) {
