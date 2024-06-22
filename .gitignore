@@ -1,6 +1,13 @@
+# Ignore HELP.md file
 HELP.md
+
+# Ignore target directory
 target/
+
+# Exclude Maven wrapper jar file
 !.mvn/wrapper/maven-wrapper.jar
+
+# Include target directories under src/main and src/test
 !**/src/main/**/target/
 !**/src/test/**/target/
 
@@ -31,3 +38,20 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignore images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+
+# Ignore temporary files and directories
+*.temp*
+*.tmp
+.temp/
+.temp*/
+
+# End of .gitignore
+
+
