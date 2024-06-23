@@ -47,6 +47,12 @@ public class ConferenciaController {
 		return conferenciaService.getAllConferencias();
 	}
 	
+	@GetMapping("/{id}")
+	public Conferencia getConferenciaById(@PathVariable int id) {
+	  Optional<Conferencia> conferencia = conferenciaService.getConferencia(id);
+	  return conferencia.get();
+	}
+	
 	
 	//guardar una conferencia
 	@PostMapping("/saveConferencia")
@@ -122,13 +128,11 @@ public class ConferenciaController {
 	                if (imagenUrlAntigua != null && !imagenUrlAntigua.isEmpty()) {
 	                    String objectKeyAntiguo = imagenUrlAntigua.substring(imagenUrlAntigua.lastIndexOf("/") + 1);
 	                    awss3ServiceImpl.deleteObjectFromS3(objectKeyAntiguo);
-	                    System.out.println("Imagen antigua eliminada: " + objectKeyAntiguo); // Log para depuración
 	                }
 
 	                // Subir la nueva imagen al bucket S3 y obtener su URL
 	                String nuevaImagenUrl = awss3ServiceImpl.uploadFile(archivoImagen);
 	                conferenciaAct.setImagenUrl(nuevaImagenUrl);
-	                System.out.println("Nueva imagen subida: " + nuevaImagenUrl); // Log para depuración
 	            }
 	            
 	            

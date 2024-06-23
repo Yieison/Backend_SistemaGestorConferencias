@@ -31,7 +31,6 @@ public class Conferencia implements Serializable {
 	private String descripcion;
 	private String lugar;
 	
-
 	@OneToMany(mappedBy = "conferencia")
 	// Establecer referencia manejada
 	@JsonIgnore

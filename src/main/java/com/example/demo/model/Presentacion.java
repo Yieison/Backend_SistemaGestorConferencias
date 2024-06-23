@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import jakarta.persistence.Entity;
@@ -23,7 +24,7 @@ public class Presentacion {
 	private String resumen;
 	private String palabras_clave;
 	private int Duracion;
-	private Timestamp fecha_presentacion;
+	private Date fecha_presentacion;
 	
 	 @ManyToOne
 	 @JoinColumn(name = "id_articulo")
