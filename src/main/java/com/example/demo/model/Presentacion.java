@@ -2,6 +2,9 @@ package com.example.demo.model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,11 +27,15 @@ public class Presentacion {
 	private String resumen;
 	private String palabras_clave;
 	private int Duracion;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date fecha_presentacion;
 	
 	 @ManyToOne
 	 @JoinColumn(name = "id_articulo")
 	 private Articulo articulo;
+	 
+	 private LocalTime horaInicio;
+	 private LocalTime horaFin;
 	
 
 }

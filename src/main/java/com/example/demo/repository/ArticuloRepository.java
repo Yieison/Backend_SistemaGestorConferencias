@@ -15,5 +15,5 @@ public interface ArticuloRepository extends JpaRepository<Articulo,Integer>{
 	
 	@Query("SELECT a FROM Articulo a WHERE a.estado = ?1")
     List<Articulo> findByEstado(String estado);
-
+	
 }

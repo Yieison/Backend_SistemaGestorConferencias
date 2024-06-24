@@ -22,26 +22,22 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="evaluacion")
+@Table(name = "evaluacion")
 public class Evaluacion implements Serializable {
-	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp fechaHora;
-	    @ManyToOne
-	    @JoinColumn(name="articulo_id_articulo")
-	    private Articulo articulo;
-	    
-	    @ManyToOne
-	    @JoinColumn(name = "evaluador_id")
-	    private Usuario evaluador;
-	    
-	    private String estado;
-	
-	
-	
+	@ManyToOne
+	@JoinColumn(name = "articulo_id_articulo")
+	private Articulo articulo;
+
+	@ManyToOne
+	@JoinColumn(name = "evaluador_id")
+	private Usuario evaluador;
+
+	private String estado;
 
 }
