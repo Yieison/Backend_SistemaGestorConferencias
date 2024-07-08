@@ -54,7 +54,7 @@ public class UsuarioService {
 			return usuarioRepository.findByCorreo(correo);
 		}
 		
-		public void deleteUsuario(Integer id) {
+		public void deleteUsuarios(Integer id) {
 			usuarioRepository.deleteById(id);
 		}
 		

@@ -51,7 +51,7 @@ public class UsuarioController {
 
 	@DeleteMapping("/{id}")
 	public void eliminarUsuario(@PathVariable Integer id) {
-		usuarioService.deleteUsuario(id);
+		usuarioService.deleteUsuarios(id);
 	}
 	
 
