@@ -11,6 +11,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +47,13 @@ public class UsuarioController {
 		Optional<Usuario> usuario = usuarioService.getUsuario(id);
 		return usuario.get();
 	}
+	
+
+	@DeleteMapping("/{id}")
+	public void eliminarUsuario(@PathVariable Integer id) {
+		usuarioService.deleteUsuario(id);
+	}
+	
 
 	@PostMapping("/save")
 	public void save(@RequestBody Usuario usuario) {
@@ -180,6 +188,7 @@ public class UsuarioController {
 	public List<Usuario> getUsuariosPorRol(@PathVariable("rol") String nombre) {
 		return usuarioService.getEvaluadores(nombre);
 	}
+	
 
 	@GetMapping("/findCorreo/{correo}")
 	public Optional<Usuario> getUsuariosPorCorreo(@PathVariable("correo") String correo) {
