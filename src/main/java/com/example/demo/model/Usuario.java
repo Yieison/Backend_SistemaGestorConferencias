@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +26,8 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name="usuarios")
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_usuarios")
 public class Usuario implements Serializable {
 	
 	
@@ -39,6 +45,26 @@ public class Usuario implements Serializable {
 	 @JoinColumn(name = "id_rol")
 	 private Rol rol;
 	 
+	 
+	 @ManyToMany(mappedBy = "usuarios")
+	 @JsonIgnore
+	 private List<Comite> comites;
+	 
+	 @OneToMany(mappedBy = "asistente")
+	 //@JsonManagedReference // Gestiona la serialización de las inscripciones
+	 @JsonIgnore
+	 private List<Inscripcion> inscripciones;
+	 
+	 @ManyToOne
+	 @JoinColumn(name = "id_ciudad")
+	 private Ciudad ciudad;
+	 
+	 @ManyToOne
+	 @JoinColumn(name ="id_institucion")
+	 private Institucion institucion;
+	 
+	 @OneToMany(mappedBy = "evaluador")
+	 private List<Evaluacion> evaluaciones;
 	 
 	 
 	 

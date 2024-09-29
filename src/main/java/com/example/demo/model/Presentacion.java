@@ -36,6 +36,10 @@ public class Presentacion {
 	 
 	 private LocalTime horaInicio;
 	 private LocalTime horaFin;
+	 
+	 @ManyToOne
+	 @JoinColumn(name = "id_sesion")
+	 private Sesion sesion;
 	
 
 }

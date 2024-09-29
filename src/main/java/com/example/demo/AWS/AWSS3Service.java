@@ -36,4 +36,6 @@ public interface AWSS3Service {
 	String getLastUploadedFileUrl();
 
 	void deleteObjectFromS3(String objectKey);
+
+	String uploadFileCarpeta(MultipartFile file, String folder);
 }

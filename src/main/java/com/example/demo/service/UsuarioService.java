@@ -6,8 +6,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.Ciudad;
+import com.example.demo.model.Institucion;
+import com.example.demo.model.Pais;
 import com.example.demo.model.Rol;
 import com.example.demo.model.Usuario;
+import com.example.demo.repository.CiudadRepository;
+import com.example.demo.repository.InstitucionRepository;
+import com.example.demo.repository.PaisRepository;
 import com.example.demo.repository.RolRepository;
 import com.example.demo.repository.UsuarioRepository;
 
@@ -17,6 +23,12 @@ public class UsuarioService {
 	
 	@Autowired
 	UsuarioRepository  usuarioRepository;
+	
+	@Autowired
+	CiudadRepository ciudadRepository;
+	
+	@Autowired
+	InstitucionRepository institucionRepository;
 	
 	@Autowired
 	RolRepository rolRepository;
@@ -40,9 +52,15 @@ public class UsuarioService {
 			usuarioRepository.save(usuario);
 		}
 		
-		public void RegistrarUsuario(Usuario usuario,int idRol) {
+		public void RegistrarUsuario(Usuario usuario,int idRol,int idCiudad,int idInstitucion) {
 			Optional<Rol> rol = rolRepository.findById(idRol);
+			Ciudad ciudad = ciudadRepository.findById(idCiudad)
+	                .orElseThrow(() -> new RuntimeException("Ciudad no encontrado"));
+			Institucion institucion = institucionRepository.findById(idInstitucion)
+	                .orElseThrow(() -> new RuntimeException("Institucion no encontrada"));
 			usuario.setRol(rol.get());
+			usuario.setCiudad(ciudad);
+			usuario.setInstitucion(institucion);
 			usuarioRepository.save(usuario);
 		}
 		

@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -43,6 +45,27 @@ public class Conferencia implements Serializable {
 	
 	private String imagenUrl;
 	
+	@OneToMany(mappedBy = "conferencia", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
+    private List<Comite> comites;
+	
+	@OneToMany(mappedBy = "conferencia")
+	@JsonIgnore
+	private List<Inscripcion> inscripciones;
+	
+	
+	@OneToMany(mappedBy = "conferencia", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Convocatoria> convocatorias;
+	  
+	  
+	@OneToMany(mappedBy = "conferencia", cascade = CascadeType.ALL)
+	@JsonIgnore
+	 private List<Precio> precios;
+	
+	@OneToMany(mappedBy = "conferencia")
+	@JsonIgnore
+	private List<Sesion> sesiones;
 	
 	
 

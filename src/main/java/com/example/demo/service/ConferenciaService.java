@@ -30,7 +30,20 @@ public class ConferenciaService {
 		}
 		
 		//Guardar una conferencia
-		public void Guardar(Conferencia conferencia) {
+		public void Guardar(Conferencia conferencia,int id) {
+			 List<Usuario> chairs = usuarioRepository.findByRolNombre("CHAIR");
+
+			    // Verificar si la lista de chairs no está vacía
+			    if (!chairs.isEmpty()) {
+			        // Buscar el usuario con el id proporcionado dentro de la lista de chairs
+			        for (Usuario chair : chairs) {
+			            if (chair.getId_usuarios() == id) {
+			                // Asignar el usuario encontrado como chair de la conferencia
+			                conferencia.setChair(chair);
+			                break;
+			            }
+			        }
+			    }
 			conferenciaRepository.save(conferencia);
 		}
 		

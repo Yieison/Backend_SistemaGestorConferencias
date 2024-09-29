@@ -58,6 +58,35 @@ public class AWSS3ServiceImpl implements AWSS3Service {
 	            throw new RuntimeException("Error al subir el archivo a S3", e);
 	        }
 	    }
+	 
+	 
+	 @Override
+	 public String uploadFileCarpeta(MultipartFile file, String folder) {
+	     File mainFile = new File(file.getOriginalFilename());
+	     try (FileOutputStream stream = new FileOutputStream(mainFile)) {
+	         stream.write(file.getBytes());
+	         
+	         // Asegurarse de que la carpeta termina con "/"
+	         if (!folder.endsWith("/")) {
+	             folder += "/";
+	         }
+
+	         // Concatenar la carpeta al nombre del archivo
+	         String newFileName = folder + System.currentTimeMillis() + "_" + mainFile.getName();
+	         LOGGER.info("Subiendo archivo a la carpeta '" + folder + "' con el nombre " + newFileName);
+
+	         // Crear una solicitud para subir el archivo a S3
+	         PutObjectRequest request = new PutObjectRequest(bucketName, newFileName, mainFile);
+	         amazonS3.putObject(request);
+
+	         // Devolver la URL del archivo subido
+	         return amazonS3.getUrl(bucketName, newFileName).toString();
+	     } catch (IOException e) {
+	         LOGGER.error(e.getMessage(), e);
+	         throw new RuntimeException("Error al subir el archivo a S3", e);
+	     }
+	 }
+
 
   
 	

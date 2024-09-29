@@ -55,14 +55,15 @@ public class ConferenciaController {
 	
 	
 	//guardar una conferencia
-	@PostMapping("/saveConferencia")
-	public void guardarConferencia(@RequestPart("file") MultipartFile file, @RequestPart Conferencia conferencia) {
+	@PostMapping("/saveConferencia/{idChair}")
+	public void guardarConferencia(@RequestPart("file") MultipartFile file, 
+		@RequestPart Conferencia conferencia,@PathVariable int idChair) {
 		String fileUrl = awss3ServiceImpl.uploadFile(file);
 		conferencia.setImagenUrl(fileUrl);
-		conferenciaService.Guardar(conferencia);
+		conferenciaService.Guardar(conferencia,idChair);
 	}
 	
-	
+	 /**
 	 @PostMapping("/save")
 	    public ResponseEntity<String> guardarConferencia(@RequestPart("file") MultipartFile file, @RequestPart("conferencia") String conferenciaJson) {
 	        try {
@@ -84,6 +85,7 @@ public class ConferenciaController {
 	            return new ResponseEntity<>("Error al guardar la conferencia: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	        }
 	    }
+	 */
 	 
 	 //Eliminar una confencia
 	 @DeleteMapping("eliminar/{id}")

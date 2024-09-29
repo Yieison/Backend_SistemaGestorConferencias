@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +26,8 @@ import com.example.demo.repository.EvaluacionRepository;
 import com.example.demo.repository.UsuarioRepository;
 import com.example.demo.service.EvaluacionService;
 
+import jakarta.mail.internet.MimeMessage;
+
 @RestController
 @RequestMapping("/evaluacion")
 public class EvaluacionController {
@@ -31,7 +35,7 @@ public class EvaluacionController {
 	@Autowired
 	EvaluacionService evaluacionService;
 	
-	
+
 	
 	@GetMapping
 	public List<Evaluacion> getAll () {
@@ -57,8 +61,9 @@ public class EvaluacionController {
 	            @PathVariable int idEvaluador,
 	            @PathVariable int idArticulo,
 	            @RequestBody Evaluacion evaluacion) {
+		 	
 	        evaluacionService.asignarEvaluacion(idEvaluador, idArticulo, evaluacion);
-	        return new ResponseEntity<>("Evaluación asignada exitosamente", HttpStatus.OK);
+	        return new ResponseEntity<>("Evaluación y correo asignado exitosamente", HttpStatus.OK);
 	   }
 	
 	

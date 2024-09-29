@@ -25,10 +25,15 @@ public class PresentacionController {
 		return presentacionService.getPresentaciones();
 	}
 	
+	@GetMapping("/sesion/{idSesion}")
+	public List<Presentacion> getPresentacionesSesion(@PathVariable int idSesion){
+		return presentacionService.getPresentacionesSesion(idSesion);
+	}
 	
-	@PostMapping("/guardar/{id}")
-	public void guardarPresentacion(@RequestBody Presentacion presentacion,@PathVariable int id) {
-		presentacionService.Guardar(presentacion, id);
+	
+	@PostMapping("/guardar/{id}/sesion/{idSesion}")
+	public void guardarPresentacion(@RequestBody Presentacion presentacion,@PathVariable int id,@PathVariable int idSesion) {
+		presentacionService.Guardar(presentacion, id,idSesion);
 	}
 
 }

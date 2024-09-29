@@ -77,7 +77,7 @@ public class UsuarioController {
 		        // Crear MimeMessage y MimeMessageHelper para enviar correo HTML
 		        MimeMessage mimeMessage = emailSender.createMimeMessage();
 		        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-		        mimeMessageHelper.setFrom("neidersimarra3@gmail.com");
+		        mimeMessageHelper.setFrom("sistemagestionconferenciasufps@gmail.com");
 		        mimeMessageHelper.setTo(usuario.getCorreo());
 		        mimeMessageHelper.setSubject(usuario.getNombre() + " " + usuario.getApellido() + " Bienvenido al Sistema gestor de conferencias");
 		        mimeMessageHelper.setText(htmlBody, true); // true indica que el contenido es HTML
@@ -91,11 +91,12 @@ public class UsuarioController {
 		    }
 	}
 
-	@PostMapping("/register/{idRol}")
-	public ResponseEntity<String> register(@RequestBody Usuario usuario, @PathVariable int idRol) {
+	@PostMapping("/register/{idRol}/ciudad/{idCiudad}/institucion/{idInstitucion}")
+	public ResponseEntity<String> register(@RequestBody Usuario usuario, @PathVariable int idRol,@PathVariable int idCiudad,
+			@PathVariable int idInstitucion) {
 		try {
 			// Registrar el usuario
-			usuarioService.RegistrarUsuario(usuario, idRol);
+			usuarioService.RegistrarUsuario(usuario, idRol,idCiudad,idInstitucion);
 		} catch (Exception e) {
 			// Manejar otras excepciones
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -120,7 +121,7 @@ public class UsuarioController {
 				// Crear MimeMessage y MimeMessageHelper para enviar correo HTML
 				MimeMessage mimeMessage = emailSender.createMimeMessage();
 				MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-				mimeMessageHelper.setFrom("neidersimarra3@gmail.com");
+				mimeMessageHelper.setFrom("sistemagestionconferenciasufps@gmail.com");
 				mimeMessageHelper.setTo(usuarioCorreo.getCorreo());
 				mimeMessageHelper.setSubject(usuarioCorreo.getNombre() + " " + usuarioCorreo.getApellido()
 						+ " Bienvenido al Sistema gestor de conferencias");
@@ -149,7 +150,7 @@ public class UsuarioController {
 					+ " Felicitaciones su registro ha sido exitoso en la plataforma de conferencias");
 			SimpleMailMessage message = new SimpleMailMessage();
 			message.setTo(usuarioOpt.get().getCorreo());
-			message.setFrom("neidersimarra3@gmail.com");
+			message.setFrom("sistemagestionconferenciasufps@gmail.com");
 			message.setSubject("" + usuarioOpt.get().getNombre() + " " + usuarioOpt.get().getApellido()
 					+ " Bienvenido al Sistema gestor de conferencias" + " ");
 			message.setText(bodyMessage);

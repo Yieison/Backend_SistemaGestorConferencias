@@ -8,6 +8,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +24,7 @@ import com.example.demo.repository.ConferenciaRepository;
 import com.example.demo.repository.EvaluacionRepository;
 import com.example.demo.repository.UsuarioRepository;
 
+import jakarta.mail.internet.MimeMessage;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
@@ -40,6 +45,9 @@ public class EvaluacionService {
 	
 	@Autowired
 	ArticuloRepository articuloRepository;
+	
+	@Autowired
+	private JavaMailSender emailSender;
 	
 	  @PersistenceContext
 	    private EntityManager entityManager;
@@ -76,7 +84,7 @@ public class EvaluacionService {
 			 }
 			 
 			 
-			 public void asignarEvaluacion(int idEvaluador,int idArticulo , Evaluacion evaluacion) {
+			 public ResponseEntity<String> asignarEvaluacion(int idEvaluador,int idArticulo , Evaluacion evaluacion) {
 				 
 				 Optional<Usuario> opEvaluador = usuarioRepository.findById(idEvaluador);
 				 Optional<Articulo> opArticulo = articuloRepository.findById(idArticulo);
@@ -91,9 +99,36 @@ public class EvaluacionService {
 					 evaluacion.setEvaluador(evaluador);
 					 evaluacion.setArticulo(articulo);
 					 
+					 try {
+							// Construir el contenido HTML del correo
+							String htmlBody = "<html><body style='text-align: center;'>" + "<h2>" + evaluador.getNombre() + " "
+									+ evaluador.getApellido() + "</h2>" + "<p>Has sido seleccionado como "
+									+ evaluador.getRol().getNombre() + ".</p>"
+									+ "<p>Articulo a evaluar:</p>"  + articulo.getNombre() + "</p>"
+									+ "<p>Fecha limite" + evaluacion.getFechaHora() + "</p>" + // Aquí deberías manejar la seguridad
+																								// de la contraseña
+									"<img src='https://upload.wikimedia.org/wikipedia/commons/0/03/UFPS_Logo.png' alt='Logo UFPS' style='width: 100px; height: auto;' />"
+									+ "</body></html>";
+							// Crear MimeMessage y MimeMessageHelper para enviar correo HTML
+							MimeMessage mimeMessage = emailSender.createMimeMessage();
+							MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+							mimeMessageHelper.setFrom("sistemagestionconferenciasufps@gmail.com");
+							mimeMessageHelper.setTo(evaluador.getCorreo());
+							mimeMessageHelper.setSubject(evaluador.getNombre() + " " + evaluador.getApellido()
+									+ "Te han seleccionado como evaluador en la conferencia" + " " + articulo.getConferencia().getNombre());
+							mimeMessageHelper.setText(htmlBody, true); // true indica que el contenido es HTML
+
+							emailSender.send(mimeMessage);
+
+						} catch (Exception e) {
+							// Manejar errores al enviar el correo
+							return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+									.body("Registro exitoso, pero ocurrió un error al enviar el correo: " + e.getMessage());
+						}
+					 
 					 evaluacionRepository.save(evaluacion);
-					
 				 }
+				return null;
 				 		 
 			 }
 			
