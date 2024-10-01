@@ -34,7 +34,7 @@ public class Institucion {
 	@JsonIgnore
 	private Ciudad ciudad;
 	
-	@OneToMany(mappedBy = "sala")
+	@OneToMany(mappedBy = "institucion")
 	@JsonIgnore
 	private List<Sala> salas;
 
