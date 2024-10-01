@@ -33,5 +33,9 @@ public class Institucion {
 	@JoinColumn(name ="id_ciudad")
 	@JsonIgnore
 	private Ciudad ciudad;
+	
+	@OneToMany(mappedBy = "sala")
+	@JsonIgnore
+	private List<Sala> salas;
 
 }
