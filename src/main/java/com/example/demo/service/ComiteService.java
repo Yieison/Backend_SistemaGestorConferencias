@@ -16,11 +16,15 @@ import com.example.demo.repository.UsuarioRepository;
 @Service
 public class ComiteService {
 	
-	@Autowired
-	ComiteRepository comiteRepository;
+	
+	
 	
 	@Autowired
 	UsuarioRepository usuarioRepository;
+	
+	
+	@Autowired
+	ComiteRepository comiteRepository;
 	
 	@Autowired
 	ConferenciaRepository conferenciaRepository;
