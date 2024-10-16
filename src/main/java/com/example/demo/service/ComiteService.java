@@ -34,14 +34,16 @@ public class ComiteService {
 		return comiteRepository.findAll();
 	}
 	
-	public void agregarComite(int idConferencia,Comite comite) {
-		
-		Optional<Conferencia> optConferencia = conferenciaRepository.findById(idConferencia);
-		if(optConferencia.isPresent()) {
-			Conferencia conferencia = optConferencia.get();
-			comite.setConferencia(conferencia);
-			comiteRepository.save(comite);
-		}
+	public void agregarComite(int idConferencia, Comite comite) {
+	    System.out.println("Nombre del comité recibido: " + comite.getNombre());
+
+	    Optional<Conferencia> optConferencia = conferenciaRepository.findById(idConferencia);
+	    if (optConferencia.isPresent()) {
+	        Conferencia conferencia = optConferencia.get();
+	        comite.setConferencia(conferencia);
+
+	        comiteRepository.save(comite);
+	    }
 	}
 	
 	public Comite agregarMiembrosComite(int idUsuario,int idComite){

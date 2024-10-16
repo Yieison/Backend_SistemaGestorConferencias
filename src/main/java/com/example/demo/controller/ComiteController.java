@@ -31,11 +31,11 @@ public class ComiteController {
 	}
 	
 	
-	@PostMapping("/agregarComite/conferencia/{idConferencia}")
-	public void agregarComite(@PathVariable int idConferencia,@RequestBody Comite comite) {
-		comiteService.agregarComite(idConferencia, comite);
-	}
-	
+	 @PostMapping("/agregarComite/conferencia/{idConferencia}")
+	    public ResponseEntity<String> agregarComite(@PathVariable int idConferencia, @RequestBody Comite comite) {
+	        comiteService.agregarComite(idConferencia, comite);
+	        return ResponseEntity.ok("Comité agregado exitosamente");
+	  }
 	
 	
 	@PostMapping("/agregarMiembros/comite/{idComite}/usuario/{idUsuario}")
