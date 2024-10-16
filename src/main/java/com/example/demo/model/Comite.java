@@ -21,12 +21,13 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Comite implements Serializable {
+public class Comite {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String nombre;
+	
+	private String nombreComite;
 	
 	@ManyToOne
     @JoinColumn(name = "conferencia_id")
