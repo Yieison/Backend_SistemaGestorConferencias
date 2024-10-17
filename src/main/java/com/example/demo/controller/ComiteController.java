@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,9 +49,13 @@ public class ComiteController {
 	
 
 	@PostMapping("/agregarMiembros/comite/{idComite}")
-	public ResponseEntity<Comite> agregarUsuarioNuevo(@PathVariable int idComite,@RequestBody Usuario usuario){
-		Comite comiteActualizado = comiteService.agregarMiembrosComiteNuevos(idComite,usuario);
-		return ResponseEntity.ok(comiteActualizado);
+	public ResponseEntity<?> agregarUsuarioNuevo(@PathVariable int idComite,@RequestBody Usuario usuario){
+		try {
+	        Comite comite = comiteService.agregarMiembrosComiteNuevos(idComite, usuario);
+	        return ResponseEntity.ok(comite);
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+	    }
 	}
 
 
