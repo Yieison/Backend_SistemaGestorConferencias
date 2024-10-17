@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Comite;
+import com.example.demo.model.Usuario;
 import com.example.demo.service.ComiteService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -43,5 +44,14 @@ public class ComiteController {
 		Comite comiteActualizado = comiteService.agregarMiembrosComite(idUsuario, idComite);
 		return ResponseEntity.ok(comiteActualizado);
 	}
+	
+	
+
+	@PostMapping("/agregarMiembros/comite/{idComite}")
+	public ResponseEntity<Comite> agregarUsuarioNuevo(@PathVariable int idComite,@RequestBody Usuario usuario){
+		Comite comiteActualizado = comiteService.agregarMiembrosComiteNuevos(idComite,usuario);
+		return ResponseEntity.ok(comiteActualizado);
+	}
+
 
 }

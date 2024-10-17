@@ -46,6 +46,7 @@ public class ComiteService {
 	    
 	}
 	
+	
 	public Comite agregarMiembrosComite(int idUsuario,int idComite){
 		
 		Comite comite = comiteRepository.findById(idComite)
@@ -61,6 +62,20 @@ public class ComiteService {
 		
 		return comite;
 	}
+	
+	public Comite agregarMiembrosComiteNuevos (int idComite,Usuario usuario){
+		
+		Comite comite = comiteRepository.findById(idComite)
+        .orElseThrow(() -> new RuntimeException("Comité no encontrado"));
+
+        
+        comite.getUsuarios().add(usuario);
+		
+		comiteRepository.save(comite);
+		
+		return comite;
+	}
+	
 	
 	
 
