@@ -70,7 +70,10 @@ public class ComiteService {
 		
 	    // Guardar el nuevo usuario si no existe
 	     usuarioRepository.save(usuario);
-        comite.getUsuarios().add(usuario);
+	     
+	     Optional<Usuario> usuarioOpt = usuarioRepository.findByCorreo(usuario.getCorreo());
+	     
+        comite.getUsuarios().add(usuarioOpt.get());
 		    
 	  
 	    // Guardar el comité con el nuevo miembro
