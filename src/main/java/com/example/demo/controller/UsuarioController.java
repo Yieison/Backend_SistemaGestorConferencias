@@ -58,37 +58,6 @@ public class UsuarioController {
 	@PostMapping("/save")
 	public void save(@RequestBody Usuario usuario) {
 		usuarioService.Guardar(usuario);
-		Optional<Usuario> usuarioOpt = usuarioService.getUsuario(usuario.getId_usuarios());
-		Usuario usuarioCorreo = usuarioOpt.get();
-		 try {
-		        // Guardar usuario en el servicio
-		        
-		        // Construir cuerpo HTML del correo electrónico
-			 String htmlBody = "<html><body style='text-align: center;'>" + "<h2>" + usuarioCorreo.getNombre() + " "
-						+ usuarioCorreo.getApellido() + "</h2>" + "<p>Has sido seleccionada como "
-						+ usuarioCorreo.getRol().getNombre() + " En el sistema gestor de conferencias podras acceder con tus credenciales y ver tus conferencias asignadas"
-								+ ".</p>"
-						+ "<p>Credenciales de acceso:</p>" + "<p>Correo: " + usuarioCorreo.getCorreo() + "</p>"
-						+ "<p>Password:" + usuarioCorreo.getPassword() + "</p>" + // Aquí deberías manejar la seguridad
-																					// de la contraseña
-						"<img src='https://upload.wikimedia.org/wikipedia/commons/0/03/UFPS_Logo.png' alt='Logo UFPS' style='width: 100px; height: auto;' />"
-						+ "</body></html>";
-
-		        // Crear MimeMessage y MimeMessageHelper para enviar correo HTML
-		        MimeMessage mimeMessage = emailSender.createMimeMessage();
-		        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-		        mimeMessageHelper.setFrom("sistemagestionconferenciasufps@gmail.com");
-		        mimeMessageHelper.setTo(usuario.getCorreo());
-		        mimeMessageHelper.setSubject(usuario.getNombre() + " " + usuario.getApellido() + " Bienvenido al Sistema gestor de conferencias");
-		        mimeMessageHelper.setText(htmlBody, true); // true indica que el contenido es HTML
-
-		        // Enviar correo electrónico
-		        emailSender.send(mimeMessage);
-		    } catch (MessagingException | MailException e) {
-		        // Manejar cualquier excepción relacionada con el envío de correo
-		        // Puedes registrar el error o devolver un mensaje de error adecuado
-		        throw new RuntimeException("Ocurrió un error al enviar el correo electrónico.");
-		    }
 	}
 
 	@PostMapping("/register/{idRol}/ciudad/{idCiudad}/institucion/{idInstitucion}")
