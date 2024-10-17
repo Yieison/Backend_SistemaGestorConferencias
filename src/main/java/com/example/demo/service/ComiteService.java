@@ -69,10 +69,10 @@ public class ComiteService {
         .orElseThrow(() -> new RuntimeException("Comité no encontrado"));
 		
 	    // Guardar el nuevo usuario si no existe
-	    Usuario usuarioNuevo  = usuarioRepository.save(usuario);
-	    
-        comite.getUsuarios().add(usuarioNuevo);
+	     usuarioRepository.save(usuario);
+        comite.getUsuarios().add(usuario);
 		    
+	  
 	    // Guardar el comité con el nuevo miembro
 	    comiteRepository.save(comite);
 	    
