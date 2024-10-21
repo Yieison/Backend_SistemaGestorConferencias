@@ -86,64 +86,39 @@ public class ConferenciaController {
 	        }
 	    }
 	 */
-	 
-	 //Eliminar una confencia
-	 @DeleteMapping("eliminar/{id}")
-		public ResponseEntity<String> eliminar(@PathVariable Integer id) {
-		 	Optional<Conferencia> conferenciaOpt = conferenciaService.getConferencia(id);
-		 	if(conferenciaOpt.isPresent()&& conferenciaOpt.get().getChair()== null) {
-		 		Conferencia conferencia = conferenciaOpt.get();
-		 		String imagenUrl = conferencia.getImagenUrl();
-		 		//extraer la clave del objeto (key) de la url completa
-		 		String objectKey = imagenUrl.substring(imagenUrl.lastIndexOf("/")+1);
-		 		
-		 		try {
-		 			awss3ServiceImpl.deleteObjectFromS3(objectKey);
-		 			conferenciaService.delete(id);
-		 			return ResponseEntity.ok("conferencia eliminada exitosamente");
-		 		}catch (Exception e) {
-		 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar la conferencia:" + e.getMessage());
-		 		}
-		 	}else {
-		 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("la conferencia tiene un chair registrado");
-		 		
-		 	}
-		 	
+	
+	
+	//inactivar una conferencia
+	@PostMapping("desactivar/conferencia/{id}")
+	public ResponseEntity<?> desactivar(@PathVariable int id){
+		try {
+			conferenciaService.inactivarConferencia(id);
+			return ResponseEntity.ok("Se cambio el estado de la conferencia exitosamente");
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al cambiar el estado" + e.getMessage());
 		}
+	}
+	 
+	
 	 
 	 //Editar una conferencia
 	 @PutMapping("editar/{id}")
 	    public ResponseEntity<?> actualizarConferencia(
 	        @PathVariable Integer id,
-	        @RequestPart(required = false ) Conferencia conferencia,@RequestPart(value = "file", required = false) MultipartFile archivoImagen
+	        @RequestPart(value="conferencia") String conferenciaJson,@RequestPart(value = "file", required = false) MultipartFile archivoImagen
 	    ) {
-	        Optional<Conferencia> conferenciaOpt = conferenciaService.getConferencia(id);
+		 try {
+			 ObjectMapper objectMapper = new ObjectMapper();
+		        Conferencia conferencia = objectMapper.readValue(conferenciaJson, Conferencia.class);
 
-	        if (conferenciaOpt.isPresent()) {
-	        	
-	            Conferencia conferenciaAct  = conferenciaOpt.get();
-	            
-	            
-	            if (archivoImagen != null && !archivoImagen.isEmpty()) {
-	                // Eliminar la imagen antigua del bucket S3 si existe
-	                String imagenUrlAntigua = conferenciaAct.getImagenUrl();
-	                if (imagenUrlAntigua != null && !imagenUrlAntigua.isEmpty()) {
-	                    String objectKeyAntiguo = imagenUrlAntigua.substring(imagenUrlAntigua.lastIndexOf("/") + 1);
-	                    awss3ServiceImpl.deleteObjectFromS3(objectKeyAntiguo);
-	                }
-
-	                // Subir la nueva imagen al bucket S3 y obtener su URL
-	                String nuevaImagenUrl = awss3ServiceImpl.uploadFile(archivoImagen);
-	                conferenciaAct.setImagenUrl(nuevaImagenUrl);
-	            }
-	            
-	            
-	            conferenciaService.editarConferencia(conferenciaAct);
-	            
-	            return ResponseEntity.ok("Conferencia actualizada");
-	        } else {
-	            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Conferencia no encontrada");
-	        }
+		        conferenciaService.editarConferencia(conferencia, id, archivoImagen);
+		        return ResponseEntity.ok("Conferencia actualizada");
+		    } catch (RuntimeException e) {
+		        throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		    } catch (Exception e) {
+		        // Manejar cualquier otro error genérico
+		        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar la conferencia");
+		    }
 	    }
 		
 	 
@@ -169,16 +144,17 @@ public class ConferenciaController {
 	
 	
 	//borra los topicos de una conferencia por Id
+	/**
 	@DeleteMapping("/{idConferencia}/topico/{idTopico}")
 	public void deleteTopicosByIdConferencia(@PathVariable int idConferencia ,@PathVariable int idTopico) {
-		/**
+		
 		//obtengo la conferencia
 		Optional<Conferencia> conferencia = conferenciaService.getConferencia(idConferencia);
 		//obtengo los topicos de la conferencia
 		List<Topico> topicos = topicoService.getTopicosConferencia(conferencia.get());
 		
 		topicoService.delete(idTopico);
-		*/
+		
 		Optional<Conferencia> optionalConferencia = conferenciaService.getConferencia(idConferencia);
 	    
 	    // Verificar si la conferencia existe
@@ -197,7 +173,8 @@ public class ConferenciaController {
 	    		}
 	    
 	}
-	
+
+	*/
 	
 	//Asigna el chair a una conferencia
 	@PostMapping("/asignarChair/{id}")

@@ -32,6 +32,7 @@ public class Conferencia implements Serializable {
 	private Date Fecha_fin;
 	private String descripcion;
 	private String lugar;
+	private String estado;
 	
 	@OneToMany(mappedBy = "conferencia")
 	// Establecer referencia manejada

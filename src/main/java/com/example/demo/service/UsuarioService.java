@@ -64,6 +64,14 @@ public class UsuarioService {
 			usuarioRepository.save(usuario);
 		}
 		
+		
+		public void RegistrarChair(Usuario usuario,int idRol) {
+			Optional<Rol> rol = rolRepository.findById(idRol);
+			usuario.setRol(rol.get());
+			usuarioRepository.save(usuario);
+		}
+		
+		
 		public List<Usuario> getEvaluadores(String nombre){
 			return usuarioRepository.findByRolNombre(nombre);
 		}
@@ -71,6 +79,9 @@ public class UsuarioService {
 		public Optional<Usuario> getCorreo(String correo){
 			return usuarioRepository.findByCorreo(correo);
 		}
+		
+		
+		
 		
 		public void deleteUsuarios(Integer id) {
 			usuarioRepository.deleteById(id);

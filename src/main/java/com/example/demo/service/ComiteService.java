@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.Comite;
 import com.example.demo.model.Conferencia;
@@ -63,15 +64,17 @@ public class ComiteService {
 		return comite;
 	}
 	
+	
+	@Transactional
 	public Comite agregarMiembrosComiteNuevos (int idComite,Usuario usuario){
 		
 		Comite comite = comiteRepository.findById(idComite)
         .orElseThrow(() -> new RuntimeException("Comité no encontrado"));
 		
 	    // Guardar el nuevo usuario si no existe
-	     usuarioRepository.save(usuario);
+	     Usuario usuarioGuardado = usuarioRepository.save(usuario);
 	     
-	     Optional<Usuario> usuarioOpt = usuarioRepository.findByCorreo(usuario.getCorreo());
+	     Optional<Usuario> usuarioOpt = usuarioRepository.findById(usuarioGuardado.getId_usuarios());
 	     
         comite.getUsuarios().add(usuarioOpt.get());
 		    
