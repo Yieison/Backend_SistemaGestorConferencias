@@ -105,12 +105,10 @@ public class ConferenciaController {
 	 @PutMapping("editar/{id}")
 	    public ResponseEntity<?> actualizarConferencia(
 	        @PathVariable Integer id,
-	        @RequestPart(value="conferencia") String conferenciaJson,@RequestPart(value = "file", required = false) MultipartFile archivoImagen
+	        @RequestPart(value="conferencia") Conferencia conferencia,@RequestPart(value = "file", required = false) MultipartFile archivoImagen
 	    ) {
 		 try {
-			 ObjectMapper objectMapper = new ObjectMapper();
-		        Conferencia conferencia = objectMapper.readValue(conferenciaJson, Conferencia.class);
-
+		
 		        conferenciaService.editarConferencia(conferencia, id, archivoImagen);
 		        return ResponseEntity.ok("Conferencia actualizada");
 		    } catch (RuntimeException e) {
