@@ -77,8 +77,9 @@ public class EvaluacionController {
 	
 	
 	@PutMapping("/{id}/realizarEvaluacion/{nuevoEstado}")
-    public Evaluacion cambiarEstado(@PathVariable("id") int id, @PathVariable String nuevoEstado) {
-        return evaluacionService.cambiarEstado(id, nuevoEstado);
+    public ResponseEntity<String >cambiarEstado(@PathVariable("id") int id, @PathVariable String nuevoEstado,@RequestBody String comentario) {
+       evaluacionService.cambiarEstado(id, nuevoEstado,comentario);
+       return ResponseEntity.ok("la evaluacion ha sido exitosa");
     }
 	
 	

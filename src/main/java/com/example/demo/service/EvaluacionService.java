@@ -72,11 +72,12 @@ public class EvaluacionService {
 				return evaluacionRepository.findByEstado(estado);
 			}
 			
-			 public Evaluacion cambiarEstado(int id, String nuevoEstado) {
+			 public Evaluacion cambiarEstado(int id, String nuevoEstado,String comentario) {
 			        Optional<Evaluacion> optionalEvaluacion = evaluacionRepository.findById(id);
 			        if (optionalEvaluacion.isPresent()) {
 			            Evaluacion evaluacion = optionalEvaluacion.get();
 			            evaluacion.setEstado(nuevoEstado);
+			            evaluacion.setComentario(comentario);
 			            return evaluacionRepository.save(evaluacion);
 			        } else {
 			            throw new EntityNotFoundException("Evaluación no encontrada");
