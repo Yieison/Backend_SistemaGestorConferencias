@@ -14,6 +14,8 @@ import com.example.demo.repository.ComiteRepository;
 import com.example.demo.repository.ConferenciaRepository;
 import com.example.demo.repository.UsuarioRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class ComiteService {
 	
@@ -38,13 +40,29 @@ public class ComiteService {
 	public void agregarComite(int idConferencia, Comite comite) {
 	
 	
-	    Optional<Conferencia> optConferencia = conferenciaRepository.findById(idConferencia);
-	    if (optConferencia.isPresent()) {
-	        Conferencia conferencia = optConferencia.get();
-	        comite.setConferencia(conferencia);
-	        comiteRepository.save(comite);
-	    }
-	    
+		 if (comite == null) {
+		        throw new IllegalArgumentException("El comité no puede ser null.");
+		    }
+
+		    Optional<Conferencia> optConferencia = conferenciaRepository.findById(idConferencia);
+		    if (optConferencia.isPresent()) {
+		        Conferencia conferencia = optConferencia.get();
+
+		        // Verifica que el nombre del comité no sea null o vacío
+		        if (comite.getNombre() != null && !comite.getNombre().trim().isEmpty()) {
+		            // Asigna la conferencia al comité
+		            comite.setConferencia(conferencia);
+
+		            // Guarda el comité en el repositorio
+		            comiteRepository.save(comite);
+		        } else {
+		            // Maneja el caso donde el nombre del comité sea null o vacío
+		            throw new IllegalArgumentException("El nombre del comité no puede ser null o vacío.");
+		        }
+		    } else {
+		        // Maneja el caso en que la conferencia no exista
+		        throw new EntityNotFoundException("Conferencia con ID " + idConferencia + " no encontrada.");
+		    }    
 	}
 	
 	

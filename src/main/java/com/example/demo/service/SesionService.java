@@ -80,6 +80,17 @@ public class SesionService {
 
 	    return true; // La sala está disponible
 	}
+	
+	
+	public Sesion editarSesion(int idSesion,Sesion sesionActualizada) {
+	    Sesion sesion = sesionRepository.findById(idSesion)
+		        .orElseThrow(() -> new RuntimeException("Sesion no encontrada"));
+	    sesion.setNombre(sesionActualizada.getNombre());
+	    sesion.setFechaDia(sesionActualizada.getFechaDia());
+	    sesion.setHoraInicio(sesionActualizada.getHoraInicio());
+	    sesion.setHoraFin(sesionActualizada.getHoraFin());
+	    return sesionRepository.save(sesion);
+	}
 
 	
 	

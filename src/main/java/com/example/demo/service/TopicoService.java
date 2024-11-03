@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.Ciudad;
 import com.example.demo.model.Conferencia;
 import com.example.demo.model.Topico;
 import com.example.demo.model.Usuario;
@@ -39,6 +40,13 @@ public class TopicoService {
 	
 	public void delete(Integer id) {
 		topicoRepository.deleteById(id);
+	}
+	
+	public Topico editarTopico(int idTopico, Topico topicoActualizado) {
+		Topico topico = topicoRepository.findById(idTopico)
+                .orElseThrow(() -> new RuntimeException("Topico no encontrado"));
+		topico.setTema(topicoActualizado.getTema());
+		return topicoRepository.save(topico);
 	}
 	
 }

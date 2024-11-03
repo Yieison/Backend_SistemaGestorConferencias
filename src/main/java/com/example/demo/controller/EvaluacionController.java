@@ -83,6 +83,18 @@ public class EvaluacionController {
     }
 	
 	
+	@GetMapping("/articulo/{idArticulo}")
+    public List<Evaluacion> obtenerEvaluacionesPorArticulo(@PathVariable int idArticulo) {
+        return evaluacionService.obtenerEvaluacionesByArticulo(idArticulo);
+    }
+	
+	
+	@GetMapping("/conferencia/{idConferencia}")
+	public List<Evaluacion> getEvaluacionesByConferencia(@PathVariable int idConferencia){
+		return evaluacionService.getEvaluacionesConferencia(idConferencia);
+	}
+	
+	
 	
 	
 	

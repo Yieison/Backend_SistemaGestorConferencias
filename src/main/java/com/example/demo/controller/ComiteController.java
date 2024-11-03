@@ -8,14 +8,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Comite;
+
 import com.example.demo.model.Usuario;
 import com.example.demo.service.ComiteService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
+import jakarta.persistence.EntityNotFoundException;
 
 
 @RestController
@@ -26,6 +30,13 @@ public class ComiteController {
 	@Autowired
 	ComiteService comiteService;
 	
+	 private final ObjectMapper objectMapper; // Declarar ObjectMapper
+
+	    public ComiteController(ComiteService comiteService, ObjectMapper objectMapper) {
+	        this.comiteService = comiteService;
+	        this.objectMapper = objectMapper; // Inicializar ObjectMapper
+	    }
+	
 	
 	@GetMapping
 	public ResponseEntity<List<Comite>> obtenerComites(){
@@ -33,11 +44,33 @@ public class ComiteController {
 	}
 	
 	
-	 @PostMapping("/agregarComite/conferencia/{idConferencia}")
-	    public ResponseEntity<String> agregarComite(@PathVariable int idConferencia, @RequestBody Comite comite) {
+	@PostMapping("/agregarComite/conferencia/{idConferencia}")
+	public ResponseEntity<String> agregarComite(@PathVariable int idConferencia, @RequestBody Comite comite) {
+		
+	    System.out.println("Comité recibido: " + comite.getNombre()); // Muestra el objeto recibido
+
+	    // Comprueba si el nombre del comité no es null antes de crear el objeto Comite
+	    if (comite.getNombre() != null && !comite.getNombre().trim().isEmpty()) {
 	        comiteService.agregarComite(idConferencia, comite);
 	        return ResponseEntity.ok("Comité agregado exitosamente");
-	  }
+	    } else {
+	        return ResponseEntity.badRequest().body("El nombre del comité no puede ser null o vacío.");
+	    }
+	}
+	
+	@PostMapping("/testComite")
+    public ResponseEntity<String> testComite(@RequestBody String json) {
+        try {
+            // Deserializa manualmente el JSON a la clase Comite
+            Comite comite = objectMapper.readValue(json, Comite.class);
+            System.out.println("Comité recibido: " + comite);
+            return ResponseEntity.ok("Comité recibido: " + comite.getNombre());
+        } catch (Exception e) {
+            // Manejo de excepciones en caso de error de deserialización
+            e.printStackTrace();
+            return ResponseEntity.status(400).body("Error en la deserialización: " + e.getMessage());
+        }
+    }
 	
 	
 	@PostMapping("/agregarMiembros/comite/{idComite}/usuario/{idUsuario}")

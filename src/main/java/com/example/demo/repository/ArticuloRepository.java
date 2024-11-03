@@ -19,4 +19,7 @@ public interface ArticuloRepository extends JpaRepository<Articulo,Integer>{
 	
 	 @Query("SELECT a FROM Articulo a WHERE a.autor.id_usuarios = :idAutor")
 	 List<Articulo> findArticulosByAutorId(@Param("idAutor") int idAutor);
+	 
+	 @Query("SELECT a FROM Articulo a WHERE a.conferencia.id_conferencia = :idConferencia")
+	 List<Articulo> findArticulosByConferencia(@Param("idConferencia") int idConferencia);
 }

@@ -1,10 +1,12 @@
 package com.example.demo.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.model.Conferencia;
@@ -31,6 +33,11 @@ public class ConferenciaService {
 	//traer conferencia por id
 		public Optional<Conferencia> getConferencia(Integer id) {
 			return conferenciaRepository.findById(id);
+		}
+		
+		
+		public List<Conferencia> getConferenciasEstado(String estado){
+			return conferenciaRepository.findByEstado(estado);
 		}
 		
 		//Guardar una conferencia
@@ -107,7 +114,7 @@ public class ConferenciaService {
 		}
 		
 		//editar Conferencias
-		public void editarConferencia(Conferencia conferencia,Integer idConferencia,MultipartFile archivoImagen) {
+		public void editarConferencia(Conferencia conferencia,Integer idConferencia,MultipartFile archivoImagen,int idChair) {
 			Conferencia conferenciaAct = conferenciaRepository.findById(idConferencia)
 			        .orElseThrow(() -> new RuntimeException("Conferencia no encontrada"));
 			 // Actualizar los atributos de la conferencia
@@ -116,6 +123,7 @@ public class ConferenciaService {
 		    conferenciaAct.setLugar(conferencia.getLugar());
 		    conferenciaAct.setFecha_inicio(conferencia.getFecha_inicio());
 		    conferenciaAct.setFecha_fin(conferencia.getFecha_fin());
+		    AsignarChair(idChair,conferenciaAct);
 
 		    // Manejar la imagen si se proporciona
 		    if (archivoImagen != null && !archivoImagen.isEmpty()) {
@@ -131,6 +139,21 @@ public class ConferenciaService {
 
 		    // Guardar la conferencia actualizada
 		    conferenciaRepository.save(conferenciaAct);
+		}
+		
+		public List<Conferencia> obtenerConferencisTerminadas(LocalDate fecha){
+			return conferenciaRepository.findByFechaFinAfterAndActivoTrue(fecha);
+		}
+		
+		
+		@Transactional
+	    public void desactivarConferenciasConFechaFinAntesDe(LocalDate fecha) {
+	        List<Conferencia> conferencias = conferenciaRepository.findByFechaFinAfterAndActivoTrue(fecha);
+	        System.out.println(conferencias);
+	        for (Conferencia conferencia : conferencias) {
+	            conferencia.setEstado("Finalizada"); // O el campo que uses para el estado
+	            conferenciaRepository.save(conferencia);
+	        }
 		}
 		
 		

@@ -12,10 +12,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
 @Table
+@ToString
 public class Convocatoria implements Serializable{
 	
 	@Id
@@ -37,6 +39,7 @@ public class Convocatoria implements Serializable{
 	
 	 @ManyToOne
 	 @JoinColumn(name = "id_conferencia") // Relación con la conferencia
+	 @ToString.Exclude
 	 private Conferencia conferencia;
 	
 	

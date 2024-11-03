@@ -37,5 +37,7 @@ public class EventoController {
 		eventoService.agregarEvento(idSesion, evento);
 		return new ResponseEntity<>("evento agregado exitosamente",HttpStatus.OK);
 	}
+	
+	
 
 }

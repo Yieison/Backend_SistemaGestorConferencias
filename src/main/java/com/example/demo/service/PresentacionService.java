@@ -40,6 +40,10 @@ public class PresentacionService {
 			return presentacionRepository.findById(id);
 		}
 		
+		public List<Presentacion> getConferencia(int id){
+			return presentacionRepository.findByConferencia(id);
+		}
+		
 		//agregar presentacion de un articulo
 		public void Guardar(Presentacion presentacion,int idArticulo,int idSesion) {
 			Optional<Articulo> articuloOpt = articuloRepository.findById(idArticulo);

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +54,11 @@ public class ConferenciaController {
 	  return conferencia.get();
 	}
 	
+	@GetMapping("/estado/{estado}")
+	public List<Conferencia> getConferenciasByEstado(@PathVariable String estado){
+		return conferenciaService.getConferenciasEstado(estado);
+	}
+	
 	
 	//guardar una conferencia
 	@PostMapping("/saveConferencia/{idChair}")
@@ -102,14 +108,15 @@ public class ConferenciaController {
 	
 	 
 	 //Editar una conferencia
-	 @PutMapping("editar/{id}")
+	 @PutMapping("editar/{id}/chair/{idChair}")
 	    public ResponseEntity<?> actualizarConferencia(
 	        @PathVariable Integer id,
-	        @RequestPart(value="conferencia") Conferencia conferencia,@RequestPart(value = "file", required = false) MultipartFile archivoImagen
+	        @RequestPart(value="conferencia") Conferencia conferencia,@RequestPart(value = "file", required = false) MultipartFile archivoImagen,
+	        @PathVariable int idChair
 	    ) {
 		 try {
 		
-		        conferenciaService.editarConferencia(conferencia, id, archivoImagen);
+		        conferenciaService.editarConferencia(conferencia, id, archivoImagen,idChair);
 		        return ResponseEntity.ok("Conferencia actualizada");
 		    } catch (RuntimeException e) {
 		        throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -179,5 +186,18 @@ public class ConferenciaController {
 	public void asignarChair(@PathVariable int id,@RequestBody Conferencia conferencia) {
 		conferenciaService.AsignarChair(id, conferencia);
 	}
+	
+	@GetMapping("/conferenciasPasadas")
+	public List<Conferencia> verConferenciasPasadas(LocalDate fecha){
+		fecha= LocalDate.now();
+		return conferenciaService.obtenerConferencisTerminadas(fecha);
+	}
+	
+	
+	 @PostMapping("/desactivarConferenciasPasadas")
+	    public ResponseEntity<String> desactivarConferenciasPasadas() {
+	        conferenciaService.desactivarConferenciasConFechaFinAntesDe(LocalDate.now());
+	        return ResponseEntity.ok("Conferencias pasadas desactivadas exitosamente.");
+	  }
 	
 }

@@ -31,6 +31,12 @@ public class PresentacionController {
 	}
 	
 	
+	@GetMapping("/conferencia/{idConferencia}")
+	public List<Presentacion> getPresentacionesByConferencia(@PathVariable int idConferencia){
+		return presentacionService.getConferencia(idConferencia);
+	}
+	
+	
 	@PostMapping("/guardar/{id}/sesion/{idSesion}")
 	public void guardarPresentacion(@RequestBody Presentacion presentacion,@PathVariable int id,@PathVariable int idSesion) {
 		presentacionService.Guardar(presentacion, id,idSesion);

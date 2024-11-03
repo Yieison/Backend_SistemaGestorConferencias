@@ -84,6 +84,16 @@ public class EvaluacionService {
 			        }
 			 }
 			 
+			 public List<Evaluacion> obtenerEvaluacionesByArticulo(int idArticulo){
+				 return evaluacionRepository.findByArticuloId(idArticulo);
+			 }
+			 
+			 public List<Evaluacion> getEvaluacionesConferencia(int idConferencia){
+				 return evaluacionRepository.findByConferencia(idConferencia);
+			 }
+			 
+			 
+			 
 			 
 			 public ResponseEntity<String> asignarEvaluacion(int idEvaluador,int idArticulo , Evaluacion evaluacion) {
 				 

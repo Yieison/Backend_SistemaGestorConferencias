@@ -3,6 +3,8 @@ package com.example.demo.model;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,6 +36,11 @@ public class Articulo implements Serializable{
 	@ManyToOne
 	@JoinColumn(name= "id_autor")
 	private Usuario autor;
+	
+	
+	@OneToMany(mappedBy = "articulo")
+	@JsonIgnore // Para evitar referencias circulares
+	private List<Evaluacion> evaluaciones;
 	
 	
 

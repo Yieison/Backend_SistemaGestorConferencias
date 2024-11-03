@@ -67,6 +67,12 @@ public class Usuario implements Serializable {
 	 private List<Evaluacion> evaluaciones;
 	 
 	 
+	 // Relación uno-a-muchos con Articulos
+	 @OneToMany(mappedBy = "autor")
+	 @JsonIgnore
+	 private List<Articulo> articulos;
+	 
+	 
 	 
 	 
 }

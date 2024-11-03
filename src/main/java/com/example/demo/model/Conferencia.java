@@ -18,10 +18,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Data
 @Table(name="conferencias")
+@ToString
 public class Conferencia implements Serializable {
 	
 	@Id
@@ -37,6 +39,7 @@ public class Conferencia implements Serializable {
 	@OneToMany(mappedBy = "conferencia")
 	// Establecer referencia manejada
 	@JsonIgnore
+	@ToString.Exclude
 	private List<Topico> topicos;
 	
 	@ManyToOne
@@ -46,26 +49,31 @@ public class Conferencia implements Serializable {
 	
 	private String imagenUrl;
 	
-	@OneToMany(mappedBy = "conferencia", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "conferencia")
 	@JsonIgnore
+	@ToString.Exclude
     private List<Comite> comites;
 	
 	@OneToMany(mappedBy = "conferencia")
 	@JsonIgnore
+	@ToString.Exclude
 	private List<Inscripcion> inscripciones;
 	
 	
 	@OneToMany(mappedBy = "conferencia", cascade = CascadeType.ALL)
+	@ToString.Exclude
 	@JsonIgnore
 	private List<Convocatoria> convocatorias;
 	  
 	  
 	@OneToMany(mappedBy = "conferencia", cascade = CascadeType.ALL)
 	@JsonIgnore
+	@ToString.Exclude
 	 private List<Precio> precios;
 	
 	@OneToMany(mappedBy = "conferencia")
 	@JsonIgnore
+	@ToString.Exclude
 	private List<Sesion> sesiones;
 	
 	
