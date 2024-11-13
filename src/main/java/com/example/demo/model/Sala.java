@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +28,9 @@ public class Sala implements Serializable {
 	private String nombre;
 	
 	private String tipo;
+	
+	@Column(name = "url_sala", length = 800) 
+	private String urlSala;
 	
 	@OneToMany(mappedBy = "sala")
 	@JsonIgnore

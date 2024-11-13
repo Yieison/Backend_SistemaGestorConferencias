@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,11 @@ public class ConvocatoriaController {
 	@GetMapping
 	public List<Convocatoria> getAllConvocatories(){
 		return convocatoriaService.getConvocatorias();
+	}
+	
+	@GetMapping("/{id}")
+	public Optional<Convocatoria> getConvocatoria(@PathVariable int id){
+		return convocatoriaService.getConvocatoriaById(id);
 	}
 	
 	@PostMapping("/agregar/{idConferencia}")

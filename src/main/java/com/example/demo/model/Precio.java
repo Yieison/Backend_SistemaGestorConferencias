@@ -26,7 +26,9 @@ public class Precio implements Serializable {
 	 private String tipoUsuario; // e.g., "ESTUDIANTE", "PROFESIONAL", "AUTOR"
 	 
 	 
-	 private String etapa; // e.g., "INSCRIPCION_TEMPRANA", "INSCRIPCION_TARDIA"
+	 //private String etapa; // e.g., "INSCRIPCION_TEMPRANA", "INSCRIPCION_TARDIA"
+	 
+	 
 
 	 @ManyToOne
 	 @JoinColumn(name = "id_conferencia")

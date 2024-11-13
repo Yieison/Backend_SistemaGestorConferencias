@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,9 +28,14 @@ public class TopicoController {
 		return topicoService.getAllTopics();
 	}
 	
-	@PostMapping("/save")
-	public void guardarTopico(@RequestBody Topico topico) {
-		topicoService.Guardar(topico);
+	@PostMapping("/save/{idConferencia}")
+	public void guardarTopico(@RequestBody Topico topico,@PathVariable int idConferencia) {
+		topicoService.Guardar(topico, idConferencia);
+	}
+	
+	@PutMapping("/editar/{idTopico}")
+	public Topico editarTopico(@PathVariable int idtopico, @RequestBody Topico topico) {
+		return topicoService.editarTopico(idtopico, topico);
 	}
 	
 	@DeleteMapping("/{id}")

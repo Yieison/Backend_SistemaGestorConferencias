@@ -17,4 +17,7 @@ public interface PresentacionRepository extends JpaRepository<Presentacion,Integ
 	@Query("SELECT e FROM Presentacion e WHERE e.sesion.conferencia.id_conferencia = :idConferencia")
 	List<Presentacion> findByConferencia(@Param("idConferencia")Integer idConferencia);
 	
+	@Query("SELECT p FROM Presentacion p WHERE p.articulo.autor.id_usuarios = :idUsuario")
+    List<Presentacion> findByPresentacionesUsuario(int idUsuario);
+	
 }

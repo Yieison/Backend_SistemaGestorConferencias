@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Inscripcion;
+import com.example.demo.model.DTO.InscripcionDTO;
 import com.example.demo.service.InscripcionService;
 
 @RestController
@@ -31,6 +33,12 @@ public class InscripcionController {
 	@GetMapping("/estado/{estado}")
 	public List<Inscripcion> getInscripcionesEstado(@PathVariable String estado){
 		return inscripcionService.getInscripcionesEstado(estado);
+	}
+	
+	@GetMapping("/usuario/{idUsuario}")
+	public List<InscripcionDTO> getInscripcionesUsuario(@PathVariable int idUsuario){
+		List<Inscripcion> inscripciones = inscripcionService.getInscripcionesUsuario(idUsuario);
+		return inscripciones.stream().map(inscripcion -> new InscripcionDTO(inscripcion)).collect(Collectors.toList());
 	}
 	
 	@PostMapping("/registrar/{idUsuario}/conferencia/{idConferencia}")

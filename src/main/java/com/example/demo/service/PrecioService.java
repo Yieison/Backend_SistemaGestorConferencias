@@ -37,7 +37,7 @@ public class PrecioService {
 		Precio precio = precioRepository.findById(idPrecio)
 				.orElseThrow(() -> new RuntimeException("precio no encontrado"));
 		precio.setMonto(nuevoPrecio.getMonto());
-		precio.setEtapa(nuevoPrecio.getEtapa());
+		//precio.setEtapa(nuevoPrecio.getEtapa());
 		precio.setTipoUsuario(nuevoPrecio.getTipoUsuario());
 		return precioRepository.save(precio);
 	}

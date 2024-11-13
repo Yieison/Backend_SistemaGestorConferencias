@@ -44,6 +44,10 @@ public class InscripcionService {
 		return inscripcionRepository.findByEstado(estado);
 	}
 	
+	public List<Inscripcion> getInscripcionesUsuario(int idUsaurio){
+		return inscripcionRepository.findInscripcionesUsuario(idUsaurio);
+	}
+	
 	
 	public Inscripcion cambiarEstadoInscripcion(int idInscripcion,String estado){
 		Inscripcion inscripcion = inscripcionRepository.findById(idInscripcion).orElseThrow(() -> new RuntimeException("Inscripcion no encontrada"));

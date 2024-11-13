@@ -10,6 +10,7 @@ import com.example.demo.model.Ciudad;
 import com.example.demo.model.Conferencia;
 import com.example.demo.model.Topico;
 import com.example.demo.model.Usuario;
+import com.example.demo.repository.ConferenciaRepository;
 import com.example.demo.repository.TopicoRepository;
 
 @Service
@@ -17,6 +18,9 @@ public class TopicoService {
 	
 	@Autowired
 	TopicoRepository topicoRepository;
+	
+	@Autowired
+	ConferenciaRepository conferenciaRepository;
 	
 	
 	
@@ -28,7 +32,10 @@ public class TopicoService {
 		return topicoRepository.findById(id);
 	}
 	
-	public void Guardar(Topico topico) {
+	public void Guardar(Topico topico,int idConferencia) {
+		Conferencia conferencia = conferenciaRepository.findById(idConferencia).orElseThrow(()-> 
+		new RuntimeException("Conferencia no encontrada"));
+		topico.setConferencia(conferencia);
 		topicoRepository.save(topico);
 	}
 	

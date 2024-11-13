@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -51,7 +52,7 @@ public class Usuario implements Serializable {
 	 private List<Comite> comites;
 	 
 	 @OneToMany(mappedBy = "asistente")
-	 //@JsonManagedReference // Gestiona la serialización de las inscripciones
+	 @JsonBackReference // Gestiona la serialización de las inscripciones
 	 @JsonIgnore
 	 private List<Inscripcion> inscripciones;
 	 
@@ -64,6 +65,7 @@ public class Usuario implements Serializable {
 	 private Institucion institucion;
 	 
 	 @OneToMany(mappedBy = "evaluador")
+	 @JsonIgnore
 	 private List<Evaluacion> evaluaciones;
 	 
 	 

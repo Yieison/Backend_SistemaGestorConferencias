@@ -78,6 +78,7 @@ public class EvaluacionService {
 			            Evaluacion evaluacion = optionalEvaluacion.get();
 			            evaluacion.setEstado(nuevoEstado);
 			            evaluacion.setComentario(comentario);
+			            optionalEvaluacion.get().getArticulo().setEstado(nuevoEstado);
 			            return evaluacionRepository.save(evaluacion);
 			        } else {
 			            throw new EntityNotFoundException("Evaluación no encontrada");
@@ -109,6 +110,7 @@ public class EvaluacionService {
 					 
 					 evaluacion.setEvaluador(evaluador);
 					 evaluacion.setArticulo(articulo);
+					 articulo.setEstado("Pendiente");
 					 
 					 try {
 							// Construir el contenido HTML del correo

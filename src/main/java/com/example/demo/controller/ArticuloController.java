@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.model.Articulo;
 import com.example.demo.model.Usuario;
+import com.example.demo.service.AWSS3ServiceImpl;
 import com.example.demo.service.ArticuloService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -25,6 +28,9 @@ public class ArticuloController {
 	
 	@Autowired
 	ArticuloService articuloService;
+	
+	@Autowired
+	AWSS3ServiceImpl awss3ServiceImpl;
 	
 	//listar todos
 		@GetMapping
@@ -45,9 +51,15 @@ public class ArticuloController {
 		 }
 		 
 		 @PostMapping("/save/{idConferencia}/autor/{idAutor}")
-		 public ResponseEntity<String> saveArticulo(@PathVariable int idConferencia,
+		 public ResponseEntity<String> saveArticulo(@RequestPart("file") MultipartFile file,
+				 @PathVariable int idConferencia,
 				 @PathVariable int idAutor,
-				 @RequestBody Articulo articulo){
+				 @RequestPart("articulo")  Articulo articulo){
+			  String folder = String.valueOf(idConferencia); // Esto sería "articulos/{idConferencia}"
+
+			    // Subir el archivo a la carpeta de conferencia y obtener la URL
+			    String fileUrl = awss3ServiceImpl.uploadFileCarpeta(file, folder);
+			 articulo.setUrl(fileUrl);
 			 articuloService.saveArticulo(idConferencia, idAutor, articulo);
 			 return new ResponseEntity <> ("Articulo guardado exitosamente",HttpStatus.OK);
 		 }
