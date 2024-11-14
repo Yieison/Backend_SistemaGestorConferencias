@@ -27,7 +27,7 @@ import lombok.ToString;
 @Data
 @Table(name="conferencias")
 @ToString
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_conferencia")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_conferencia")
 public class Conferencia implements Serializable {
 	
 	@Id
