@@ -52,7 +52,7 @@ public class Usuario implements Serializable {
 	 private List<Comite> comites;
 	 
 	 @OneToMany(mappedBy = "asistente")
-	 @JsonBackReference // Gestiona la serialización de las inscripciones
+	 // Gestiona la serialización de las inscripciones
 	 @JsonIgnore
 	 private List<Inscripcion> inscripciones;
 	 

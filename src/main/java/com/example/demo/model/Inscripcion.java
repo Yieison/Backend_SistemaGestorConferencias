@@ -40,7 +40,6 @@ public class Inscripcion implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "asistente_id")
-	@JsonManagedReference // Evita la serialización recursiva del usuario
     private Usuario asistente;
 
     // Relación con Conferencia
