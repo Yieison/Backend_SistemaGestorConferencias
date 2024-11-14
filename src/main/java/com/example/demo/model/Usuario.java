@@ -28,7 +28,7 @@ import lombok.Data;
 @Data
 @Table(name="usuarios")
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_usuarios")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_usuarios")
 public class Usuario implements Serializable {
 	
 	
