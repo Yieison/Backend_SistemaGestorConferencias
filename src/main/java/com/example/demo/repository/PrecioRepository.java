@@ -13,7 +13,7 @@ import com.example.demo.model.Precio;
 @Repository
 public interface PrecioRepository extends JpaRepository<Precio,Integer> {
 	
-	@Query("SELECT e FROM Precio e WHERE e.precio.conferencia.id_conferencia = :idConferencia")
+	@Query("SELECT e FROM Precio e WHERE e.conferencia.id_conferencia = :idConferencia")
     List<Precio> findByConferencia(@Param("idConferencia") int idConferencia);
 
 }
