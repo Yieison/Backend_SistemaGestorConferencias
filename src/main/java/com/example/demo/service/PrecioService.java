@@ -27,6 +27,10 @@ public class PrecioService {
 		return precioRepository.findAll();
 	}
 	
+	public List<Precio> getPreciosByConferencia(int idConferencia){
+		return precioRepository.findByConferencia(idConferencia);
+	}
+	
 	public void agregarPrecios(int idConferencia,Precio precio){
 		Conferencia conferencia = conferenciaRepository.findById(idConferencia).orElseThrow(() -> new RuntimeException("Conferencia no encontrada"));
 		precio.setConferencia(conferencia);

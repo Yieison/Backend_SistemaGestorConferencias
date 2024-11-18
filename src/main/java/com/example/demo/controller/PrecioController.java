@@ -28,6 +28,11 @@ public class PrecioController {
 		return precioService.getPrecios();
 	}
 	
+	@GetMapping("/{idConferencia}")
+	public List<Precio> getPreciosConferencia(@PathVariable int idConferencia){
+		return precioService.getPreciosByConferencia(idConferencia);
+	}
+	
 	@PostMapping("/agregarPrecio/{idConferencia}")
 	public ResponseEntity<String> agregarPrecios(@PathVariable int idConferencia,@RequestBody Precio precio){
 		precioService.agregarPrecios(idConferencia, precio);
