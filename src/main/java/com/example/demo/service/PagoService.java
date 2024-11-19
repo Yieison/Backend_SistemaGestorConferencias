@@ -25,6 +25,10 @@ public class PagoService {
 		return pagoRepository.findAll();
 	}
 	
+	public List<Pago> getPagoInscripcion(int idPago){
+		return pagoRepository.findByInscripcion(idPago);
+	}
+	
 	public List<Pago> getPagosEstado(String estado){
 		return pagoRepository.findPagoByEstado(estado);
 	}

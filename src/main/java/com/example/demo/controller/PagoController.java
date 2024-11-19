@@ -35,6 +35,12 @@ public class PagoController {
 		return pagoService.getPagosEstado(estado);
 	}
 	
+	
+	@GetMapping("/inscripcion/{idInscripcion}")
+	public List<Pago> getPagoInscripcion(@PathVariable int idInscripcion){
+		return pagoService.getPagoInscripcion(idInscripcion);
+	}
+	
 	@PostMapping("/savePago/{idInscripcion}")
 	public void guardarPago(@RequestPart("file") MultipartFile file,@RequestPart("pago") Pago pago,@PathVariable int idInscripcion) {
 	    String folder = "pagos";
