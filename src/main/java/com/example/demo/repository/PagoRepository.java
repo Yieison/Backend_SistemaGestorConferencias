@@ -15,6 +15,6 @@ public interface PagoRepository extends JpaRepository<Pago,Integer> {
 	@Query("SELECT a FROM Pago a WHERE a.estado_pago = ?1")
 	List<Pago> findPagoByEstado (String estado_pago);
 	
-	@Query("SELECT e FROM Pago e WHERE e.inscripcion.id_inscripcion = :idInscripcion")
-    List<Pago> findByInscripcion(@Param("idInscripcion") int idInscripcion);
+	@Query("SELECT e FROM Pago e WHERE e.inscripcion.id = :id")
+    List<Pago> findByInscripcion(@Param("id") int idInscripcion);
 }
