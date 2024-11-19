@@ -29,6 +29,11 @@ public class ConvocatoriaController {
 		return convocatoriaService.getConvocatorias();
 	}
 	
+	@GetMapping("/conferencia/{idConferencia}")
+	public List<Convocatoria> getConvocatorias(@PathVariable int idConferencia){
+		return convocatoriaService.getConvocatoriaByConferencia(idConferencia);
+	}
+	
 	@GetMapping("/{id}")
 	public Optional<Convocatoria> getConvocatoria(@PathVariable int id){
 		return convocatoriaService.getConvocatoriaById(id);

@@ -37,6 +37,10 @@ public class ComiteService {
 		return comiteRepository.findAll();
 	}
 	
+	public List<Comite> getComitesByConferencia(int idConferencia){
+		return comiteRepository.findByConferencia(idConferencia);
+	}
+	
 	public void agregarComite(int idConferencia, Comite comite) {
 	
 	

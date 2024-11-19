@@ -44,6 +44,12 @@ public class ComiteController {
 	}
 	
 	
+	@GetMapping("/conferencia/{idConferencia}")
+    public List<Comite> getComitesConferencia(@PathVariable int idConferencia){
+		return comiteService.getComitesByConferencia(idConferencia);
+	}
+	
+	
 	@PostMapping("/agregarComite/conferencia/{idConferencia}")
 	public ResponseEntity<String> agregarComite(@PathVariable int idConferencia, @RequestBody Comite comite) {
 		

@@ -28,6 +28,10 @@ public class ConvocatoriaService {
 		return convocatoriaRepository.findById(id);
 	}
 	
+	public List<Convocatoria> getConvocatoriaByConferencia(int idConferencia){
+		return convocatoriaRepository.findByConferencia(idConferencia);
+	}
+	
 	public void agregarConvocatoria(int idConferencia,Convocatoria convocatoria) {
 		
 		Conferencia conferencia = conferenciaRepository.findById(idConferencia).orElseThrow(() -> new RuntimeException("Conferencia no encontrada"));
