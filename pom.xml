@@ -26,11 +26,16 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.amazonaws</groupId>
-			<artifactId>aws-java-sdk</artifactId>
-			<version>1.12.21</version>
+    		<groupId>com.amazonaws</groupId>
+    		<artifactId>aws-java-sdk</artifactId>
+   			 <version>1.12.21</version>
+    		<exclusions>
+       			 <exclusion>
+           			 <groupId>commons-logging</groupId>
+            		<artifactId>commons-logging</artifactId>
+        		</exclusion>
+    		</exclusions>
 		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
